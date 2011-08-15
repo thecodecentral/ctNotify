@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+
+    <title>ctNotify - A JavaScript notification plugin for jQuery | Code Central</title>
+
+    <link rel='stylesheet' href='jquery.ctNotify.css' type='text/css' media='all' />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ctNotify.js"></script>
+
+
+    <script type="text/javascript">
+      /*<![CDATA[*/
+      function runScript(button){
+        eval($(button).parent().find('code').text());
+      }
+      /*]]>*/
+    </script>
+
+
+    <style type="text/css">
+      .code_block {
+        border-bottom: 1px solid #a3a3a3;
+        padding: 10px;
+        margin: 1em 0;
+      }
+
+      .code_block code{
+        display: block;
+        background-color: #E6F7D4;
+        padding: 10px 0;
+
+      }
+
+      .code_block h2{
+        color:#910029;
+        font-size: 12px;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div style="font-size: 20px">
+      <a href="http://thecodecentral.com/2011/08/15/ctnotify-%E2%80%93-a-flexible-multi-instance-jquery-notification-script"><< View Documentation</a>
+    </div>
+    <script type="text/javascript">
+
+      /*<![CDATA[*/
+      $(function(){
+        $.ctNotifyOption({
+          sticky: false,
+          delay: 1000
+        });
+
+        $.ctNotifyOption({
+          sticky: true,
+          opacity: 1,
+          appendTo: $('#nihao'),
+          position: "static",
+          autoWidth: 'fit'
+        
+        }, 'sub');
+        
+        
+        $.ctNotifyOption({
+          position: "absolute",
+          
+          width: '400px',
+          anchors:{bottom: 0, right: 0}
+        }, 'right_bottom');
+        
+        
+        $.ctNotifyOption({
+          delay: 1000,
+          position: "absolute",
+          width: '400px',
+          opacity: 1,
+          anchors:{bottom: 0, left: '150px'},
+          autoWidth: 'fit',
+          itemRender: function(html, itemOptions, inst){
+            return $('<li style="border-bottom: 1px solid #e4e4e4">' + html  + '</li>');
+          }
+        }, 'render');
+ 
+      });
+      /*]]>*/
+
+    </script>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <div id="nihao" style="width:500px; margin:0 auto;"></div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <div style="position: absolute; bottom: 0; left: 0; height: 300px; overflow: auto; border-top: 2px solid #a3a3a3; width: 100%">
+      <p>Notice that you can scroll down to see more demo. Check the source of this page to see how each notification type is created.</p>
+      <div class="code_block">
+        <h2>Show Message</h2>
+        <pre><code>
+$.ctNotify('This is a notification message');
+$.ctNotify('This is a warning message', 'warning');
+$.ctNotify('This is a error message', 'error');
+$.ctNotify('This is a notification message with 1 second delay', {type: 'message', delay: 1000});
+$.ctNotify('This is a notification message with 5 second delay', {type: 'message', delay: 5000});
+</code></pre>
+        <input type="button" value="Run" onclick="runScript(this)"/>
+      </div>
+
+
+
+      <div class="code_block">
+        <h2>Make Notification Sticky</h2>
+        <pre><code>
+$.ctNotify('This is a notification message 1');          
+$.ctNotify('This is a sticky message', {type: 'message', isSticky: true});
+$.ctNotify('This is a notification message 2');
+        </code></pre><input type="button" value="Run" onclick="runScript(this)"/>
+      </div>
+
+
+      <div class="code_block">
+        <h2>Show Notification in Another Instance</h2>
+        <code>$.ctNotify('This is a error message', 'error', 'sub')</code> <input type="button" value="Run" onclick="runScript(this)"/>
+      </div>
+
+
+
+
+      <div class="code_block">
+        <h2>Anchor to bottom right</h2>
+        <pre><code>
+ $.ctNotify('This is a message', 'message', 'right_bottom');
+ $.ctNotify('This is a warning message', 'warning', 'right_bottom');
+ $.ctNotify('This is a error message', 'error', 'right_bottom');
+        </code></pre> <input type="button" value="Run" onclick="runScript(this)"/>
+      </div>
+
+
+
+
+      <div class="code_block">
+        <h2>Customizing Notification Markup</h2>
+        <pre><code>
+ $.ctNotify('This is a message', 'message', 'render');
+ $.ctNotify('This is a warning message', 'warning', 'render');
+ $.ctNotify('This is a error message', 'error', 'render');
+        </code></pre> <input type="button" value="Run" onclick="runScript(this)"/>
+      </div>
+
+
+    </div>
+
+
+
+  </body>
+</html>
