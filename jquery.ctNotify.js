@@ -1,13 +1,13 @@
 /*
  * jQuery ctRotator Plugin
- * Examples and documentation at:http://thecodecentral.com/2008/11/12/ctrotator-a-flexible-itemimage-rotator-script-for-jquery
+ * Examples and documentation at: http://thecodecentral.com/2011/08/15/ctnotify-a-flexible-multi-instance-jquery-notification-script
  * Under MIT license http://www.opensource.org/licenses/mit-license.php
  *
  * @author: Cuong Tham
  * @version: 1.0
  * @requires jQuery v1.2.6 or later
  *
- * @headsTip: Customizable rotating script for displaying large quantity of items in an interesting way
+ * @headsTip: A queued notification script based on jQuery. Supports multiple instances. Highly configurable.
  */
 
 
