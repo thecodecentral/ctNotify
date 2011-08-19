@@ -43,9 +43,7 @@
   </head>
   <body>
 
-    <div style="font-size: 20px">
-      <a href="http://thecodecentral.com/2011/08/15/ctnotify-a-flexible-multi-instance-jquery-notification-script">&larr; View Documentation</a>
-    </div>
+
     <script type="text/javascript">
 
       /*<![CDATA[*/
@@ -84,8 +82,15 @@
             return $('<li style="border-bottom: 1px solid #e4e4e4">' + html  + '</li>');
           }
         }, 'render');
- 
+
+
+        runScript($('#btn_1')[0]);
+        runScript($('#btn_2')[0]);
+        runScript($('#btn_3')[0]);
       });
+
+
+      
       /*]]>*/
 
     </script>
@@ -103,7 +108,10 @@
     <br/>
 
     <div style="position: absolute; bottom: 0; left: 0; height: 300px; overflow: auto; border-top: 2px solid #a3a3a3; width: 100%">
-      <p>Notice that you can scroll down to see more demo. Check the source of this page to see how each notification type is created.</p>
+      <div style="font-size: 20px">
+        <a href="http://thecodecentral.com/2011/08/15/ctnotify-a-flexible-multi-instance-jquery-notification-script">&larr;View Documentation</a>
+      </div>
+      <p><span style="color:#ff0000">Click "Run" button to show notifications. Scroll down to see more demo</span>.</p><p>Check the source of this page to see how each notification type is created.</p>
       <div class="code_block">
         <h2>Show Message</h2>
         <pre><code>
@@ -113,7 +121,7 @@ $.ctNotify('This is a error message', 'error');
 $.ctNotify('This is a notification message with 1 second delay', {type: 'message', delay: 1000});
 $.ctNotify('This is a notification message with 5 second delay', {type: 'message', delay: 5000});
 </code></pre>
-        <input type="button" value="Run" onclick="runScript(this)"/>
+        <input id="btn_1" type="button" value="Run" onclick="runScript(this)"/>
       </div>
 
 
@@ -142,7 +150,7 @@ $.ctNotify('This is a notification message 2');
  $.ctNotify('This is a message', 'message', 'right_bottom');
  $.ctNotify('This is a warning message', 'warning', 'right_bottom');
  $.ctNotify('This is a error message', 'error', 'right_bottom');
-        </code></pre> <input type="button" value="Run" onclick="runScript(this)"/>
+        </code></pre> <input id="btn_2" type="button" value="Run" onclick="runScript(this)"/>
       </div>
 
 
@@ -154,13 +162,19 @@ $.ctNotify('This is a notification message 2');
  $.ctNotify('This is a message', 'message', 'render');
  $.ctNotify('This is a warning message', 'warning', 'render');
  $.ctNotify('This is a error message', 'error', 'render');
-        </code></pre> <input type="button" value="Run" onclick="runScript(this)"/>
+        </code></pre> <input  id="btn_3" type="button" value="Run" onclick="runScript(this)"/>
       </div>
 
 
     </div>
 
-
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      _uacct = "UA-2318459-2";
+      _udn="thecodecentral.com";
+      urchinTracker();
+    </script>
 
   </body>
 </html>
