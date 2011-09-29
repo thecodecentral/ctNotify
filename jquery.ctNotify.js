@@ -88,7 +88,7 @@
         inTimeout: false,
         isInitialized: false,
         timerId: null,
-        stickyItemCount: 0
+        stickyItemCount: 0        
       };
     
     }
@@ -108,6 +108,7 @@
       width: null, //if autoWidth is set to other than disabled, this option is not used
       opacity: .7,
       position: "fixed",
+      align: null, //horizontal align based on calculation
       bodyIdSuffix: '_body_', //the element ID which contains the notificationc children
       bodyClassName: 'ctNotify_body',
       anchors: {
@@ -117,7 +118,8 @@
         right: null
       }, //top, left, bottom, right
       containerRender: null,
-      itemRender: null
+      itemRender: null,
+      onHide: $.noop
     };
     
     options = $.extend({}, opts, options);
@@ -150,21 +152,25 @@
     initItemRender(inst);
  
     inst.con = inst.options.containerRender(inst);
+    inst.con.hide();
     inst.body = inst.con.find('#' + inst.options.bodyId);
     inst.parentCon = inst.options.appendTo;
 
 
+   
     
 
     inst.con.bind('click', inst, function(e){
+      
+      
       if(e.data.inTimeout){
         clearTimeout(e.data.timerId);
-        inst.inTimeout = false;
+        e.data.inTimeout = false;
       }
 
       e.data.body.empty();
-      $(this).hide();
-      inst.stickyItemCount = 0;
+      hide(e.data);
+      e.data.stickyItemCount = 0;
     });
 
 
@@ -182,6 +188,7 @@
       });
     }
 
+    
 
     inst.isInitialized = true;
     instData[instId] = inst;
@@ -192,6 +199,56 @@
     
   }
   
+  
+  function testIfAbNormalPosition(position){
+    
+    return position == 'absolute' || position == 'fixed' || position == 'relative';
+  }
+ 
+  function doAlign(inst){
+    
+    if(inst.options.align == null || !inst.con.is(":visible")){    
+      return;  
+    }
+    
+    if(inst.options.align == 'center'){
+      if(testIfAbNormalPosition(inst.options.position)){
+        inst.con.css({
+          left: '50%',
+          marginLeft: '-' + (inst.con.width() / 2) + 'px'
+        });
+      }else{
+        inst.con.css({
+          marginLeft: 'auto',
+          marginRight: 'auto'
+        });
+      }
+    } else if(inst.options.align == 'left'){
+      if(testIfAbNormalPosition(inst.options.position)){
+        inst.con.css({
+          left: '0',
+          right: 'auto'
+        });
+      }else{
+        inst.con.css({
+          marginRight: 'auto',
+          marginLeft: '0'
+        });
+      }
+    }else if(inst.options.align == 'right'){
+      if(testIfAbNormalPosition(inst.options.position)){
+        inst.con.css({
+          right: '0',
+          left: 'auto'
+        });
+      }else{
+        inst.con.css({
+          marginLeft: 'auto',
+          marginRight: '0'
+        });
+      }
+    }
+  }
   
   function initContainer(inst){
     if(inst.options.containerRender != null){
@@ -232,6 +289,14 @@
 
   }
   
+  
+  function hide(inst){
+    var con = inst.con;
+    con.hide();
+    inst.options.onHide(inst);
+  }
+  
+  
   function initItemRender(inst){
     if(inst.options.itemRender != null){
       return;
@@ -267,8 +332,9 @@
       delay: inst.options.delay
     }, options);
     
-    
+   
     inst.con.show();
+   
     var item = inst.options.itemRender(html, options, inst);
     item.addClass(options.type);
     inst.body.append(item);
@@ -282,7 +348,7 @@
 
       
     fixWidth(inst);
-      
+    doAlign(inst);  
    
   }
 
@@ -326,7 +392,7 @@
       inst.inTimeout = false;
       inst.timerId = null;
       if(body.children().size() == 0){
-        con.hide();
+        hide(inst);
       }else{
           
       }

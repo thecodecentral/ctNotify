@@ -5,6 +5,8 @@
     <title>ctNotify - A JavaScript notification plugin for jQuery | Code Central</title>
 
     <link rel='stylesheet' href='jquery.ctNotify.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='jquery.ctNotify.rounded.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='jquery.ctNotify.roundedBr.css' type='text/css' media='all' />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="jquery.ctNotify.js"></script>
 
@@ -19,20 +21,20 @@
 
 
     <style type="text/css">
-      .code_block {
+      .code_block, .init_code {
         border-bottom: 1px solid #a3a3a3;
         padding: 10px;
         margin: 1em 0;
       }
 
-      .code_block code{
+      .code_block code, .init_code code{
         display: block;
         background-color: #E6F7D4;
         padding: 10px 0;
 
       }
 
-      .code_block h2{
+      .code_block h2, .init_code h2{
         color:#910029;
         font-size: 12px;
         font-weight: bold;
@@ -41,13 +43,18 @@
       }
     </style>
   </head>
-  <body>
+  <body id="test">
 
+    <div id="theme_container"></div>
 
-    <script type="text/javascript">
+    <script type="text/javascript" id="init_script">
 
       /*<![CDATA[*/
+      
+      
+      var continued = 0;
       $(function(){
+        
         $.ctNotifyOption({
           sticky: false,
           delay: 1000
@@ -59,14 +66,18 @@
           appendTo: $('#nihao'),
           position: "static",
           autoWidth: 'fit'
-        
+         
         }, 'sub');
         
         
         $.ctNotifyOption({
           position: "absolute",
+          className: "ctNotify_roundedBr",
+         
+          opacity: 1,
           
           width: '400px',
+          
           anchors:{bottom: 0, right: 0}
         }, 'right_bottom');
         
@@ -75,6 +86,7 @@
           delay: 1000,
           position: "absolute",
           width: '400px',
+          delay: 5000,
           opacity: 1,
           anchors:{bottom: 0, left: '150px'},
           autoWidth: 'fit',
@@ -84,9 +96,61 @@
         }, 'render');
 
 
-        runScript($('#btn_1')[0]);
+        $.ctNotifyOption({
+          autoWidth: 'disabled',
+          className: 'ctNotify_rounded',
+          position: 'absolute',
+          opacity: 1,
+          align: 'left',
+          width: '400px',
+          onHide:function(inst){ //show another queue after this
+            
+            if(continued == 0){
+              runScript($('#btn_1')[0]);
+            }
+            
+            continued++;
+          }
+         
+        }, 'theme');
+        
+        
+        $.ctNotifyOption({
+          autoWidth: 'disabled',
+          className: 'ctNotify_rounded',
+          position: 'absolute',
+          opacity: 1,
+          align: 'right',
+          sticky: true,
+          width: '350px'
+        }, 'theme_right');
+        
+        
+        $.ctNotify('This is a notification message (sticky)', 'message', 'theme_right');
+        $.ctNotify('This is a warning message (sticky)', 'warning', 'theme_right');
+        $.ctNotify('This is a error message (sticky)', 'error', 'theme_right');
+        $.ctNotify('Click to close.', 'message', 'theme_right');
+        
+      } );
+
+      
+      /*]]>*/
+
+    </script>
+
+    <script type="text/javascript">
+
+      /*<![CDATA[*/
+      $(function(){
+        
+        $('.code_block pre').hide(); 
+        $('.init_code code').text($('#init_script').text());       
+        
+       
+       
         runScript($('#btn_2')[0]);
         runScript($('#btn_3')[0]);
+        runScript($('#btn_4')[0]);
       });
 
 
@@ -111,7 +175,17 @@
       <div style="font-size: 20px">
         <a href="http://thecodecentral.com/2011/08/15/ctnotify-a-flexible-multi-instance-jquery-notification-script">&larr;View Documentation</a>
       </div>
-      <p><span style="color:#ff0000">Click "Run" button to show notifications. Scroll down to see more demo</span>.</p><p>Check the source of this page to see how each notification type is created.</p>
+      <p><span style="color:#ff0000; font-size: 25px">Click "Run" buttons below to see demos. Scroll down to see more demo</span>.</p><p>Check the source of this page to see how each notification type is created.</p>
+
+      <div class="code_block">
+        <h2>Theming</h2>
+        <pre><code>
+ $.ctNotify('This is a message', 'message', 'theme');
+ $.ctNotify('This is a warning message', 'warning', 'theme');
+ $.ctNotify('This is a error message', 'error', 'theme');
+        </code></pre> <input  id="btn_4" type="button" value="Run" onclick="runScript(this)"/>
+      </div>
+
       <div class="code_block">
         <h2>Show Message</h2>
         <pre><code>
@@ -138,7 +212,9 @@ $.ctNotify('This is a notification message 2');
 
       <div class="code_block">
         <h2>Show Notification in Another Instance</h2>
-        <code>$.ctNotify('This is a error message', 'error', 'sub')</code> <input type="button" value="Run" onclick="runScript(this)"/>
+        <pre><code>$.ctNotify('This is a error message', 'error', 'sub')</code> 
+        </pre>
+        <input type="button" id="btn_another" value="Run" onclick="runScript(this)"/>
       </div>
 
 
@@ -162,19 +238,26 @@ $.ctNotify('This is a notification message 2');
  $.ctNotify('This is a message', 'message', 'render');
  $.ctNotify('This is a warning message', 'warning', 'render');
  $.ctNotify('This is a error message', 'error', 'render');
-        </code></pre> <input  id="btn_3" type="button" value="Run" onclick="runScript(this)"/>
+        </code></pre> 
+
+        <input  id="btn_3" type="button" value="Run" onclick="runScript(this)"/>
       </div>
 
 
+
+
+
+
+      <div class="init_code">
+        <h2>Initialization Code</h2>
+        <pre><code>
+
+    </code>
+        </pre>    
+      </div>
+
     </div>
 
-    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-      _uacct = "UA-2318459-2";
-      _udn="thecodecentral.com";
-      urchinTracker();
-    </script>
-
+   
   </body>
 </html>
