@@ -18,7 +18,7 @@
   var defaultInstanceId = 'default';
   var defaultType = 'message';
   var instData = {};
-
+  var loopPreventer = 0;
 
 
   
@@ -28,14 +28,11 @@
      
     },
     ctNotify:function(html, type, instId){
-      
-
       var inst = getInstance(instId);
-
-      addItem(html, type, instId);
+      addItem(html, type, inst.id);
 
       if(!inst.inTimeout){
-        removeItem(instId);
+	    removeItem(inst.id);
       }
     }
   });
@@ -161,16 +158,26 @@
     
 
     inst.con.bind('click', inst, function(e){
+      //console.log('click', e.data.id, e.data.timerId, e.data.inTimeout);
+     
+   
+      if(e.data.id == undefined){
+        return; 
+      }
       
+     
       
       if(e.data.inTimeout){
+        if(e.data.timerId != null){
         clearTimeout(e.data.timerId);
+        }
         e.data.inTimeout = false;
       }
 
       e.data.body.empty();
       hide(e.data);
       e.data.stickyItemCount = 0;
+       
     });
 
 
@@ -193,7 +200,7 @@
     inst.isInitialized = true;
     instData[instId] = inst;
 
-
+//console.log(inst.id, inst.options.sticky);
  
     return inst;
     
@@ -374,7 +381,9 @@
 
 
   function removeItem(instId){
-    
+    if(instId == undefined){
+      return;
+    }
     var inst = getInstance(instId);
     var con = inst.con;
     var body = inst.body;
@@ -385,7 +394,7 @@
     }
 
     var size = Math.max(body.children().size() - inst.stickyItemCount, 0);
-    
+    //console.log('removedItem: tota=', body.children().size() + ', sticky=' + inst.stickyItemCount + ', inst.id = ' + inst.id);
    
     
     if(size == 0){
@@ -406,14 +415,15 @@
       var firstRemovable = getRemovableItem(instId);
         
       if(firstRemovable != null){
-        inst.timeerId = setTimeout(function(){
-       
-          if(opt.animated){
+        inst.timerId = setTimeout(function(){
+          var savedInst = inst;
+         
+		 if(opt.animated){
             firstRemovable[opt.animateType](opt.animateSpeed, function(){
-              doRemoveItem(instId, firstRemovable);
+              doRemoveItem( inst.id, firstRemovable);
             });
           }else{
-            doRemoveItem(instId, firstRemovable);
+            doRemoveItem( inst.id, firstRemovable);
           }
         
 
@@ -424,6 +434,8 @@
   
 
   function getRemovableItem(instId){
+    
+    //console.log('getRemovableItem', instId);
     var inst = getInstance(instId);
     var children = inst.body.children();
     
@@ -438,6 +450,7 @@
   }
 
   function doRemoveItem(instId, item){
+    //console.log('doRemoveId called');
     item.remove();
     removeItem(instId);
   }
