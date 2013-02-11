@@ -1,0 +1,38 @@
+{
+    "name":"ctNotify",
+    "title":"ctNotify",
+    "description":"Highly configurable multi-instance jQuery notification queue",
+    "keywords":[
+        "notification",
+        "message",
+        "growl",
+        "notify",
+        "alert",
+        "popup"
+    ],
+    "version":"1.0.0",
+    "author":{
+        "name":"Cuong Tham",
+        "url":"http://thecodecentral.com"
+    },
+    "maintainers":[
+        {
+            "name":"Cuong THam",
+            "email":"cuongtham@gmail.com",
+            "url":"http://thecodecentral.com"
+        }
+    ],
+    "licenses":[
+        {
+            "type":"MIT",
+            "url":"http://opensource.org/licenses/MIT"
+        }
+    ],
+    "bugs":"https://github.com/thecodecentral/ctNotify/issues?sort=created&state=open",
+    "homepage":"http://thecodecentral.com/2011/08/15/ctnotify-%E2%80%93-a-flexible-multi-instance-jquery-notification-script",
+    "docs":"http://thecodecentral.com/2011/08/15/ctnotify-%E2%80%93-a-flexible-multi-instance-jquery-notification-script",
+    "download":"https://github.com/thecodecentral/ctNotify/archive/master.zip",
+    "dependencies":{
+        "jquery":">=1.5"
+    }
+}
